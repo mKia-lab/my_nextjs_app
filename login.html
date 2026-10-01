@@ -1,12 +1,28 @@
-core/
-├── templates/
-│   └── core/
-│       ├── base.html        <- shared layout (nav, footer)
-│       ├── login.html        <- Screen 1
-│       ├── dashboard.html     <- Screen 2
-│       ├── crop_profiles.html <- Screen 3
-│       ├── grow_spaces.html   <- Screen 4
-│       ├── cycle_list.html    <- Screen 5
-│       ├── cycle_form.html    <- Screen 6
-│       ├── cycle_detail.html  <- Screen 7
-│       └── alert_detail.html  <- Screen 8
+Dashboard(cycles, crop):
+
+  history = cycles for this crop
+  latest = most recent cycle
+
+  IF no cycles yet:
+    SHOW "no cycles" message + button to add one
+    STOP
+
+  SHOW stat tiles:
+    - cost per unit (latest)
+    - % change vs recent average
+    - yield (latest)
+
+  SHOW chart:
+    bar per cycle, cost per unit
+    flagged cycles shown in brown, rest in green
+
+  IF latest cycle is flagged:
+    SHOW warning box explaining why (% over average)
+
+
+CostChart(history, flagged):
+
+  FOR each cycle:
+    DRAW a bar sized to its cost
+    COLOR it brown if flagged, green if normal
+    LABEL it with the cost and cycle number

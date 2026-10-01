@@ -1,0 +1,22 @@
+CycleForm():
+
+  form = default values (crop, dates, yield, costs, notes)
+
+  ON any field change:
+    UPDATE form
+
+  SHOW live preview:
+    total cost = sum of all cost fields
+    cost per unit = total cost / yield
+
+  ON submit:
+    CHECK for errors:
+      - start and end dates filled in, end after start
+      - yield is above 0
+      - no negative costs
+
+    IF errors exist:
+      SHOW error messages
+      STOP
+
+    SAVE cycle with form data

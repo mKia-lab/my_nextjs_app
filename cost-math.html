@@ -1,0 +1,50 @@
+DATA:
+  cost categories = energy, labor, nutrients, other
+  crop list = Basil, Lettuce, Microgreens, Strawberries
+  history window = 3 cycles
+  flag threshold = 10% increase
+  sample cycles = a few seeded basil cycles for testing
+
+
+COST MATH:
+
+  total_cost(cycle) = sum of all its cost categories
+
+  cost_per_unit(cycle) = total_cost / yield_amount
+
+  category_per_unit(cycle, category) = that category's cost / yield_amount
+
+  average(list of numbers) = normal average
+
+  pct_change(value, baseline) = % difference between value and baseline
+
+  cycles_for_crop(cycles, crop) = all cycles matching that crop, sorted by start date
+  // basil only ever compares to basil, never to lettuce
+
+
+FLAGGING ENGINE:
+
+  find_flag(history, index):
+    IF this is the first cycle: no flag possible
+
+    cycle = the cycle at this index
+    prior = the last few cycles before it (same crop)
+
+    change = % change in cost_per_unit vs average of prior cycles
+
+    IF change is below the flag threshold: no flag
+
+    // find which cost category grew the most
+    driver = category with the biggest % increase vs its own prior average
+
+    RETURN flag { cycle number, % change, driver category, note from that cycle }
+
+
+FORMATTING HELPERS:
+  fmt_money(n)  -> "$12.34"
+  fmt_pct(n)    -> "+10.5%"
+  fmt_date(iso) -> "Aug 12, 2026"
+
+
+SHARED UI PIECE:
+  Box(label, content) = a labeled wireframe box wrapping any content
